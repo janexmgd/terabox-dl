@@ -1,6 +1,7 @@
 import axios from 'axios';
 import ProgressBarClass from '../utils/progressBar.js'; // Ubah nama ProgressBar ke ProgressBarClass
 import fs from 'fs';
+import path from 'path';
 import { formatFileSize, formatSpeed } from '../utils/formatter.js';
 
 const downloadFile = async (url, outputPath, currentLength, length) => {
@@ -33,6 +34,11 @@ const downloadFile = async (url, outputPath, currentLength, length) => {
         total: 1,
         bar: { width: 0 },
       });
+      const directory = path.dirname(outputPath);
+
+      if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory, { recursive: true });
+      }
 
       await new Promise((resolve, reject) => {
         const writeStream = fs.createWriteStream(outputPath);
