@@ -11,8 +11,11 @@ const processItemRecursively = (item, currentPath = '') => {
       currentPath,
       item.filename
     );
+
     if (item.is_dir === '1' || item.is_dir === 1) {
-      fs.mkdirSync(fullPath, { recursive: true });
+      // Jika item adalah direktori, buat folder dengan nama item.filename
+      const dirPath = path.join(fullPath);
+      fs.mkdirSync(dirPath, { recursive: true });
 
       if (item.children && item.children.length > 0) {
         item.children.forEach((child) => {

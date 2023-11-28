@@ -4,6 +4,7 @@ import getInfo from './src/core/getInfo.js';
 import processItemRecursively from './src/core/processItemRecursively.js';
 import getDownloadUrl from './src/core/getDownloadUrl.js';
 import downloadFile from './src/core/downloadFile.js';
+import fs from 'fs';
 
 (async () => {
   try {
@@ -82,12 +83,15 @@ import downloadFile from './src/core/downloadFile.js';
       console.error(info.message);
       return;
     }
-
+    // const jsonString = JSON.stringify(info, '', 2);
+    // fs.writeFileSync('jsonres1.json', jsonString);
+    // return;
     const allResults = [];
     info.list.forEach((item) => {
-      const result = processItemRecursively(item);
+      const result = processItemRecursively(item, shortCode);
       allResults.push(...result);
     });
+
     console.log(`processing ${allResults.length} item \n`);
     const getDownloadPromises = allResults.map(async (element) => {
       const link = await getDownloadUrl(
@@ -113,9 +117,10 @@ import downloadFile from './src/core/downloadFile.js';
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
       const url = element.link.downloadLink;
+      const filename = element.item.filename;
       const fullPath = element.fullPath;
       try {
-        await downloadFile(url, fullPath, index, data.length);
+        await downloadFile(filename, url, fullPath, index, data.length);
       } catch (error) {
         console.error(error);
       }

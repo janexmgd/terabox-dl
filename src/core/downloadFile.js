@@ -4,15 +4,19 @@ import fs from 'fs';
 import path from 'path';
 import { formatFileSize, formatSpeed } from '../utils/formatter.js';
 
-const downloadFile = async (url, outputPath, currentLength, length) => {
+const downloadFile = async (
+  filename,
+  url,
+  outputPath,
+  currentLength,
+  length
+) => {
   const MAX_RETRIES = 5;
   let retries = 0;
   const progressBar = new ProgressBarClass();
 
   while (retries < MAX_RETRIES) {
     try {
-      const parts = outputPath.split('/');
-      const filename = parts[parts.length - 1];
       const { data, headers: responseHeaders } = await axios.get(url, {
         headers: {
           'User-Agent':
