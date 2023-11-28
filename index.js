@@ -1,10 +1,10 @@
 import inquirer from 'inquirer';
+
 import getShortUrl from './src/core/getShortUrl.js';
 import getInfo from './src/core/getInfo.js';
 import processItemRecursively from './src/core/processItemRecursively.js';
 import getDownloadUrl from './src/core/getDownloadUrl.js';
 import downloadFile from './src/core/downloadFile.js';
-import fs from 'fs';
 
 (async () => {
   try {
